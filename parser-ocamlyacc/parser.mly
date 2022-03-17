@@ -6,6 +6,7 @@
 %token ADD SUB MULT DIV
 %token NOT EQUAL NOTEQUAL LOWER GREATER LOWEREQUAL GREATEREQUAL
 %token PRINT SEMICOL BEGIN END IF THEN ELSE EXCLAM AFFECT REF
+%token LET IN ASSIGN
 %token EOF
 
 %start prog
@@ -31,9 +32,15 @@
 prog : inst EOF { $1 } ;
 
 inst : PRINT expr { Ast.Print($2) } 
+<<<<<<< HEAD
     | BEGIN bloc END { Ast.Bloc($2) } 
     | IF expr THEN inst ELSE inst { Ast.If($2,$4,$6) }
     | STRING AFFECT expr { Ast.Affect($1,$3) }
+=======
+    |  BEGIN bloc END { Ast.Bloc($2) } 
+    |  IF expr THEN inst ELSE inst { Ast.If($2,$4,$6) } 
+    |  LET STRING ASSIGN expr IN inst { Ast.Let($2,$4,$6) }
+>>>>>>> 303327fe0470df71e925b2cf7748f097fda64186
     ;
 
 bloc : inst { [$1] }

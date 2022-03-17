@@ -22,6 +22,9 @@ type token =
   | EXCLAM
   | AFFECT
   | REF
+  | LET
+  | IN
+  | ASSIGN
   | EOF
 
 val prog :

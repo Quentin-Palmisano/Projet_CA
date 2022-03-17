@@ -23,3 +23,4 @@ match i with
     | Bloc l -> List.iter (fun x -> evalInst x) l
     | If (e,i1,i2) -> if (eval e)=1 then (evalInst i1) else (evalInst i2)
     | Affect (s,e) -> s := (eval e)
+    | Let (s,e,i) -> let s = (eval e) in (evalInst i)

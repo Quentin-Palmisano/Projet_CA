@@ -20,3 +20,4 @@ type inst =
   | Bloc of inst list
   | If of expr * inst * inst
   | Affect of int ref * expr
+  | Let of string * expr * inst

@@ -21,7 +21,6 @@ rule token = parse
   | "true"        { INT(1) }
   | "false"       { INT(0) }
   | integer as s  { INT(int_of_string s) }
-  | string as s   { STRING(s) }
   | ";"           { SEMICOL }
   | "begin"       { BEGIN }
   | "end"         { END }
@@ -31,6 +30,11 @@ rule token = parse
   | "ref"         { REF }
   | "!"           { EXCLAM }
   | ":="          { AFFECT }
+  | "let"         { LET }
+  | "in"          { IN }
+  | string as s   { STRING(s) }
+  | "="           { ASSIGN }
+
   | spaces        { token lexbuf }
   | eof           { EOF }
   | _  as lxm     { Printf.printf "Unexpected character: %c"  lxm; exit 0 }

@@ -1,5 +1,1 @@
-begin
-print not 1 ;
-print not 0 ;
-if 1 then print 0 else print 1
-end
+let test = 7 in print test
