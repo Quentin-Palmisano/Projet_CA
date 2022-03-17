@@ -18,8 +18,8 @@ rule token = parse
   | ">"           { GREATER }
   | "<="          { LOWEREQUAL }
   | ">="          { GREATEREQUAL }
-  | "true"        { INT(1) }
-  | "false"       { INT(0) }
+  | "true"        { TRUE }
+  | "false"       { FALSE }
   | integer as s  { INT(int_of_string s) }
   | ";"           { SEMICOL }
   | "begin"       { BEGIN }

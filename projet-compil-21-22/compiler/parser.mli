@@ -12,6 +12,8 @@ type token =
   | GREATER
   | LOWEREQUAL
   | GREATEREQUAL
+  | TRUE
+  | FALSE
   | PRINT
   | SEMICOL
   | BEGIN

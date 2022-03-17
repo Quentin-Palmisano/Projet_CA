@@ -11,6 +11,8 @@ type expr =
   | NotEqual of expr * expr
   | Not of expr
   | Int of int
+  | True
+  | False
   | String of int ref
   | Ref of expr
   | Access of int ref

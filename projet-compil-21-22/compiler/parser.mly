@@ -5,6 +5,7 @@
 %token<string> STRING
 %token ADD SUB MULT DIV
 %token NOT EQUAL NOTEQUAL LOWER GREATER LOWEREQUAL GREATEREQUAL
+%token TRUE FALSE
 %token PRINT SEMICOL BEGIN END IF THEN ELSE EXCLAM AFFECT REF
 %token LET IN ASSIGN
 %token EOF
@@ -54,6 +55,8 @@ expr : expr ADD expr { Ast.Add($1,$3) }
      | expr NOTEQUAL expr { Ast.NotEqual($1,$3) }
      | NOT expr { Ast.Not($2) }
      | INT { Ast.Int($1) }
+     | TRUE { Ast.True }
+     | FALSE { Ast.False }
      /*| REF expr { Ast.Ref($2) }
      | EXCLAM STRING { Ast.Access($2) }*/
      ;
