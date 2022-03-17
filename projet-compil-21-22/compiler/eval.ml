@@ -24,5 +24,5 @@ let rec evalInst i =
 match i with
     | Print e -> (eval e)^"\tPRIM print\n"
     | Bloc l -> List.fold_left (fun s x -> s^(evalInst x)) "" l
-    | If (e,i1,i2) -> if (eval e)==1 then "\tBRANCHE L1\nL1 :\n"^(evalInst i1)^"L2 :\n"^(evalInst i2) else "\tBRANCHE L2\nL1 :\n"^(evalInst i1)^"L2 :\n"^(evalInst i2)
+    | If (e,i1,i2) -> (eval e)^"\tBRANCHIFNOT L2\nL1:\n"^(evalInst i1)^"\tBRANCH L3\nL2:\n"^(evalInst i2)^"L3:\n"
     (* | Affect (s,e) -> s := (eval e) *)

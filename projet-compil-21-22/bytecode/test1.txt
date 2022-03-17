@@ -1,16 +1,11 @@
-	CONST 0
-	PRIM print
 	CONST 1
-	PUSH
-	CONST 0
-	PRIM <
-	PRIM print
-	CONST 7
-	PUSH
-	CONST 7
-	PRIM +
-	PRIM print
+	BRANCHIFNOT L2
+L1:
 	CONST 1
 	PRIM print
-fin:
+	BRANCH L3
+L2:
+	CONST 2
+	PRIM print
+L3:
 	STOP
