@@ -1,9 +1,11 @@
 %{
 %}
 
-%token ADD EOF PRINT SEMICOL SUB MULT DIV LOWER GREATER EQUAL AND OR NOT
 %token<int> INT
-%token<float> FLOAT
+%token ADD SUB MULT DIV
+%token NOT EQUAL NOTEQUAL LOWER GREATER LOWEREQUAL GREATEREQUAL
+%token PRINT SEMICOL BEGIN END
+%token EOF
 
 %start prog
 
@@ -15,32 +17,38 @@
 %left SUB
 %left MULT
 %left DIV
+%left NOT
+%left EQUAL
+%left NOTEQUAL
+%left LOWER
+%left GREATER
+%left LOWEREQUAL
+%left GREATEREQUAL
 
 %%
 
 prog : inst EOF { $1 } ;
 
-inst : PRINT seq { Ast.Print($2) } ;
+inst : PRINT expr { Ast.Print($2) } 
+    |  BEGIN bloc END { Ast.Bloc($2) } 
+    ;
 
-seq : {[]}
-    | expr { [$1] }
-    | expr SEMICOL seq { $1::$3 }
+bloc : inst { [$1] }
+    | inst SEMICOL bloc { $1::$3 }
     ;
 
 expr : expr ADD expr { Ast.Add($1,$3) }
      | expr SUB expr { Ast.Sub($1,$3) }
      | expr MULT expr { Ast.Mult($1,$3) }
      | expr DIV expr { Ast.Div($1,$3) }
-     | SUB expr { Ast.Neg($2) }
-     | ADD expr { Ast.Pos($2) }
      | expr LOWER expr { Ast.Lower($1,$3) }
      | expr GREATER expr { Ast.Greater($1,$3) }
+     | expr LOWEREQUAL expr { Ast.LowerEqual($1,$3) }
+     | expr GREATEREQUAL expr { Ast.GreaterEqual($1,$3) }
      | expr EQUAL expr { Ast.Equal($1,$3) }
-     | expr AND expr { Ast.And($1,$3) }
-     | expr OR expr { Ast.Or($1,$3) }
+     | expr NOTEQUAL expr { Ast.NotEqual($1,$3) }
      | NOT expr { Ast.Not($2) }
      | INT { Ast.Int($1) }
-     | FLOAT { Ast.Float($1) }
      ;
 
 %%

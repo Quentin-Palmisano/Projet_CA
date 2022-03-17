@@ -1,12 +1,21 @@
 type token =
+  | INT of (int)
   | ADD
-  | EOF
-  | PRINT
-  | SEMICOL
   | SUB
   | MULT
   | DIV
-  | INT of (int)
+  | NOT
+  | EQUAL
+  | NOTEQUAL
+  | LOWER
+  | GREATER
+  | LOWEREQUAL
+  | GREATEREQUAL
+  | PRINT
+  | SEMICOL
+  | BEGIN
+  | END
+  | EOF
 
 val prog :
   (Lexing.lexbuf  -> token) -> Lexing.lexbuf -> Ast.inst

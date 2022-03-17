@@ -1,1 +1,4 @@
-6 - 8
+begin
+print not 1 ;
+print not 0
+end

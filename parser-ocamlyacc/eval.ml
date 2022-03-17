@@ -6,19 +6,16 @@ let rec eval e =
   | Sub(e1,e2) -> eval e1 - eval e2
   | Mult(e1,e2) -> eval e1 * eval e2
   | Div(e1,e2) -> eval e1 / eval e2
-  | Neg(e) -> -1 * eval e
-  | Pos(e) -> eval e
   | Lower(e1,e2) -> if(eval e1 < eval e2) then 1 else 0
   | Greater(e1,e2) -> if(eval e1 > eval e2) then 1 else 0
+  | LowerEqual(e1,e2) -> if(eval e1 <= eval e2) then 1 else 0
+  | GreaterEqual(e1,e2) -> if(eval e1 >= eval e2) then 1 else 0
   | Equal(e1,e2) -> if(eval e1 = eval e2) then 1 else 0
-  | And(e1,e2) -> if(eval e1 && eval e2) then 1 else 0
-  | Or(e1,e2) -> if(eval e1 || eval e2) then 1 else 0
-  | Not(e) -> if(not(eval e)) then 1 else 0
+  | NotEqual(e1,e2) -> if(eval e1 != eval e2) then 1 else 0
+  | Not(e) -> if((eval e)=0) then 1 else if((eval e)=1) then 0 else -1
   | Int n -> n
-  | Float n -> n
 
-let rec evalInst i =
-  match i with
-  | Print l -> (List.iter (fun x -> print_int(eval x); print_char(' ')) l;
-    print_newline()
-  )
+let rec evalInst i =  
+match i with
+    | Print e -> print_int (eval e)
+    | Bloc l -> List.iter (fun x -> evalInst x) l

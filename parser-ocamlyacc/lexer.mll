@@ -4,23 +4,27 @@
 
 let integer = '-'?['0'-'9']+
 let spaces = [' ' '\t' '\n']
-let float = '-'?(['0'-'9']*'.')?['0'-'9']+
 
 rule token = parse
   | "+"           { ADD }
   | "-"           { SUB }
   | "*"           { MULT }
   | "/"           { DIV }
-  | ";"           { SEMICOL }
+  | "not"         { NOT }
+  | "=="           { EQUAL }
+  | "!="           { NOTEQUAL }
   | "<"           { LOWER }
   | ">"           { GREATER }
-  | "="           { EQUAL }
-  | "AND"         { AND }
-  | "OR"          { OR }
-  | "NOT"         { NOT }
+  | "<="         { LOWEREQUAL }
+  | ">="          { GREATEREQUAL }
+  | "true"        { INT(1) }
+  | "false"        { INT(0) }
   | integer as s  { INT(int_of_string s) }
-  | float as s    { FLOAT(float_of_string s) }
+  | ";"           { SEMICOL }
+  | "begin"       { BEGIN }
+  | "end"       { END }
+
   | spaces        { token lexbuf }
   | eof           { EOF }
   | _  as lxm     { Printf.printf "Unexpected character: %c"  lxm; exit 0 }
-  | "Print"       { PRINT }
+  | "print"       { PRINT }
