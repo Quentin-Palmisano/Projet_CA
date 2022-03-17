@@ -13,12 +13,14 @@ type expr =
   | Int of int
   | True
   | False
-  | String of int ref
+  | String of string
+  (* | String of int ref
   | Ref of expr
-  | Access of int ref
+  | Access of int ref *)
 
 type inst = 
   | Print of expr
   | Bloc of inst list
   | If of expr * inst * inst
-  | Affect of int ref * expr
+  | Let of string * expr * inst
+  (* | Affect of int ref * expr *)

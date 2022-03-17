@@ -17,6 +17,7 @@ let rec eval e =
   | Int n -> "\tCONST "^(string_of_int n)^"\n"
   | True -> "\tCONST 1\n"
   | False -> "\tCONST 0\n"
+  | String s -> "\tACC 0\n"
   (* | Ref e -> (ref (eval e)); 0
   | Access s -> !s *)
 
@@ -25,4 +26,5 @@ match i with
     | Print e -> (eval e)^"\tPRIM print\n"
     | Bloc l -> List.fold_left (fun s x -> s^(evalInst x)) "" l
     | If (e,i1,i2) -> (eval e)^"\tBRANCHIFNOT L2\nL1:\n"^(evalInst i1)^"\tBRANCH L3\nL2:\n"^(evalInst i2)^"L3:\n"
+    | Let (s,e,i) -> (eval e)^"\tPUSH\n"^(evalInst i)^"\tPOP\n"
     (* | Affect (s,e) -> s := (eval e) *)

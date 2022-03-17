@@ -1,2 +1,8 @@
+begin
+print 0;
 let x = 5 in
+  begin
+  print 2;
   print x
+  end
+end

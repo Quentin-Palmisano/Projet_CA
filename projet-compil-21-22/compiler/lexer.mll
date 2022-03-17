@@ -27,11 +27,14 @@ rule token = parse
   | "if"          { IF }
   | "then"        { THEN }
   | "else"        { ELSE }
+  | "let"         { LET }
+  | "in"          { IN }
+  | "="           { ASSIGN }
   | "ref"         { REF }
   | "!"           { EXCLAM }
   | ":="          { AFFECT }
+  | "print"       { PRINT }
+  | string as s   { STRING(s) }
   | spaces        { token lexbuf }
   | eof           { EOF }
   | _  as lxm     { Printf.printf "Unexpected character: %c"  lxm; exit 0 }
-  | "print"       { PRINT }
-  | string as s   { STRING(s) }

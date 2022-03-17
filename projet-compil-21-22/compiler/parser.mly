@@ -35,8 +35,8 @@ prog : inst EOF { $1 } ;
 inst : PRINT expr { Ast.Print($2) } 
     | BEGIN bloc END { Ast.Bloc($2) } 
     | IF expr THEN inst ELSE inst { Ast.If($2,$4,$6) }
-    /* | STRING AFFECT expr { Ast.Affect($1,$3) }
-    | LET STRING ASSIGN expr IN inst { Ast.Let($2,$4,$6) } */
+    | LET STRING ASSIGN expr IN inst { Ast.Let($2,$4,$6) }
+    /* | STRING AFFECT expr { Ast.Affect($1,$3) }*/
     ;
 
 bloc : inst { [$1] }
@@ -57,6 +57,7 @@ expr : expr ADD expr { Ast.Add($1,$3) }
      | INT { Ast.Int($1) }
      | TRUE { Ast.True }
      | FALSE { Ast.False }
+     | STRING { Ast.String($1) }
      /*| REF expr { Ast.Ref($2) }
      | EXCLAM STRING { Ast.Access($2) }*/
      ;
