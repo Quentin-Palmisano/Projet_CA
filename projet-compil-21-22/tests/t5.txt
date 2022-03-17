@@ -1,8 +1,9 @@
 begin
-print 0;
+print 5/2;
 let x = 5 in
   begin
-  print 2;
-  print x
+  print 3;
+  print x;
+  print x*1
   end
 end
