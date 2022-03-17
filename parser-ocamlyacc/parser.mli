@@ -1,5 +1,6 @@
 type token =
   | INT of (int)
+  | STRING of (string)
   | ADD
   | SUB
   | MULT
@@ -18,6 +19,9 @@ type token =
   | IF
   | THEN
   | ELSE
+  | LET
+  | IN
+  | ASSIGN
   | EOF
 
 val prog :

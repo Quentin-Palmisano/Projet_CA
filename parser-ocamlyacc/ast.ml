@@ -16,3 +16,4 @@ type inst =
   | Print of expr
   | Bloc of inst list
   | If of expr * inst * inst
+  | Let of string * expr * inst

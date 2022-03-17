@@ -4,6 +4,7 @@
 
 let integer = '-'?['0'-'9']+
 let spaces = [' ' '\t' '\n']
+let string = ['a'-'z''A'-'Z''0'-'9']+
 
 rule token = parse
   | "+"           { ADD }
@@ -26,6 +27,10 @@ rule token = parse
   | "if"          { IF }
   | "then"        { THEN }
   | "else"        { ELSE }
+  | "let"         { LET }
+  | "in"          { IN }
+  | string as s   { STRING(s) }
+  | "="           { ASSIGN }
 
   | spaces        { token lexbuf }
   | eof           { EOF }
