@@ -1,0 +1,6 @@
+begin
+print 0;
+print 0<1;
+print 7+7;
+print true
+end
