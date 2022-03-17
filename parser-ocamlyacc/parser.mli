@@ -15,6 +15,9 @@ type token =
   | SEMICOL
   | BEGIN
   | END
+  | IF
+  | THEN
+  | ELSE
   | EOF
 
 val prog :

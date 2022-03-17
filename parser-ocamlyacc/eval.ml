@@ -19,3 +19,4 @@ let rec evalInst i =
 match i with
     | Print e -> print_int (eval e)
     | Bloc l -> List.iter (fun x -> evalInst x) l
+    | If (e,i1,i2) -> if (eval e)=1 then (evalInst i1) else (evalInst i2)

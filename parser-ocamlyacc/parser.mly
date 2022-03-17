@@ -4,7 +4,7 @@
 %token<int> INT
 %token ADD SUB MULT DIV
 %token NOT EQUAL NOTEQUAL LOWER GREATER LOWEREQUAL GREATEREQUAL
-%token PRINT SEMICOL BEGIN END
+%token PRINT SEMICOL BEGIN END IF THEN ELSE
 %token EOF
 
 %start prog
@@ -31,6 +31,7 @@ prog : inst EOF { $1 } ;
 
 inst : PRINT expr { Ast.Print($2) } 
     |  BEGIN bloc END { Ast.Bloc($2) } 
+    |  IF expr THEN inst ELSE inst { Ast.If($2,$4,$6) } 
     ;
 
 bloc : inst { [$1] }

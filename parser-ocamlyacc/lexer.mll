@@ -11,18 +11,21 @@ rule token = parse
   | "*"           { MULT }
   | "/"           { DIV }
   | "not"         { NOT }
-  | "=="           { EQUAL }
-  | "!="           { NOTEQUAL }
+  | "=="          { EQUAL }
+  | "!="          { NOTEQUAL }
   | "<"           { LOWER }
   | ">"           { GREATER }
-  | "<="         { LOWEREQUAL }
+  | "<="          { LOWEREQUAL }
   | ">="          { GREATEREQUAL }
   | "true"        { INT(1) }
-  | "false"        { INT(0) }
+  | "false"       { INT(0) }
   | integer as s  { INT(int_of_string s) }
   | ";"           { SEMICOL }
   | "begin"       { BEGIN }
-  | "end"       { END }
+  | "end"         { END }
+  | "if"          { IF }
+  | "then"        { THEN }
+  | "else"        { ELSE }
 
   | spaces        { token lexbuf }
   | eof           { EOF }
