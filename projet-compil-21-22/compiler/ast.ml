@@ -14,6 +14,7 @@ type expr =
   | True
   | False
   | String of string
+  | Par of expr
   (* | String of int ref
   | Ref of expr
   | Access of int ref *)

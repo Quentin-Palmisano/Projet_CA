@@ -45,17 +45,18 @@ bloc : inst { [$1] }
     | inst SEMICOL bloc { $1::$3 }
     ;
 
-expr : LP expr ADD expr RP { Ast.Add($2,$4) }
-     | LP expr SUB expr RP { Ast.Sub($2,$4) }
-     | LP expr MULT expr RP { Ast.Mult($2,$4) }
-     | LP expr DIV expr RP { Ast.Div($2,$4) }
-     | LP expr LOWER expr RP { Ast.Lower($2,$4) }
-     | LP expr GREATER expr RP { Ast.Greater($2,$4) }
-     | LP expr LOWEREQUAL expr RP { Ast.LowerEqual($2,$4) }
-     | LP expr GREATEREQUAL expr RP { Ast.GreaterEqual($2,$4) }
-     | LP expr EQUAL expr RP { Ast.Equal($2,$2) }
-     | LP expr NOTEQUAL expr RP { Ast.NotEqual($2,$4) }
-     | LP NOT expr RP { Ast.Not($3) }
+expr : LP expr RP { Ast.Par($2) }
+     | expr ADD expr { Ast.Add($1,$3) }
+     | expr SUB expr { Ast.Sub($1,$3) }
+     | expr MULT expr { Ast.Mult($1,$3) }
+     | expr DIV expr { Ast.Div($1,$3) }
+     | expr LOWER expr { Ast.Lower($1,$3) }
+     | expr GREATER expr { Ast.Greater($1,$3) }
+     | expr LOWEREQUAL expr { Ast.LowerEqual($1,$3) }
+     | expr GREATEREQUAL expr { Ast.GreaterEqual($1,$3) }
+     | expr EQUAL expr { Ast.Equal($1,$3) }
+     | expr NOTEQUAL expr { Ast.NotEqual($1,$3) }
+     | NOT expr { Ast.Not($2) }
      | INT { Ast.Int($1) }
      | TRUE { Ast.True }
      | FALSE { Ast.False }
