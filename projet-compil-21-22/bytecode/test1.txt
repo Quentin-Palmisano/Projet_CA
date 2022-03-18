@@ -1,15 +1,13 @@
 	CONST 2
 	PUSH
-	CONST 1
-	PUSH
+	ACC 0
+	PRIM print
 	CONST 2
 	PUSH
-	CONST 4
-	PRIM *
-	PUSH
-	CONST 3
+	ACC 1
 	PRIM +
-	PRIM -
-	PRIM /
 	PRIM print
+	ACC 0
+	PRIM print
+	POP
 	STOP

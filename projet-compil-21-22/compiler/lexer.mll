@@ -7,7 +7,6 @@ let spaces = [' ' '\t' '\n']
 let string = ['a'-'z''A'-'Z''0'-'9']+
 
 rule token = parse
-  | comments      { token lexbuf }
   | "("           { LP }
   | ")"           { RP }
   | "+"           { ADD }
