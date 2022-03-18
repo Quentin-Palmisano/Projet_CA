@@ -23,6 +23,7 @@ type inst =
   | Print of expr
   | Bloc of inst list
   | If of expr * inst * inst
+  | IfThen of expr * inst
   | Let of string * expr * inst
   | While of expr * inst list
   (* | Affect of int ref * expr *)

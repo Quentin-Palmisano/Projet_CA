@@ -36,6 +36,7 @@ prog : inst EOF { $1 } ;
 inst : PRINT expr { Ast.Print($2) } 
     | BEGIN bloc END { Ast.Bloc($2) } 
     | IF expr THEN inst ELSE inst { Ast.If($2,$4,$6) }
+    | IF expr THEN inst { Ast.IfThen($2,$4) }
     | LET STRING ASSIGN expr IN inst { Ast.Let($2,$4,$6) }
     | WHILE expr DO bloc DONE { Ast.While($2,$4) }
     /* | STRING AFFECT expr { Ast.Affect($1,$3) }*/
