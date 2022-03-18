@@ -4,6 +4,11 @@ OBJS = stop_and_copy.o list.o freelist.o mark_and_sweep.o alloc.o interp.o miniz
 
 all: minizam
 
+debug: setdebug minizam
+
+setdebug:
+    $(eval CFLAGS += -DDEBUG)
+
 minizam: $(OBJS)
 	$(CC) $(CFLAGS) $^ -o $@
 
