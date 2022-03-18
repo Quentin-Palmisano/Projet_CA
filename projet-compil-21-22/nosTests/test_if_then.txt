@@ -1,6 +1,7 @@
 begin
+if false then print 7;
 if true then print 8;
-if false then print 9;
+if not false then print 9;
 if true then if false then print 1 else print 0;
 if true then if true then print 1 else print 0;
 if false then if true then print 1 else print 0
