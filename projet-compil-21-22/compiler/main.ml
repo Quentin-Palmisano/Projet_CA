@@ -3,7 +3,7 @@ let process file =
   let lexbuf = Lexing.from_channel ic in
   let ast = Parser.prog Lexer.token lexbuf in
   let oc = open_out "../bytecode/test1.txt" in 
-  let s = (Eval.evalInst ast) in
+  let s = (Eval.evalInst ast 1) in
   begin
   Printf.fprintf oc "%s\tSTOP" s;
   close_out oc;
