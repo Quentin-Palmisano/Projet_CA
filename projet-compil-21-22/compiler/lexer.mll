@@ -2,11 +2,12 @@
   open Parser
 }
 
-let integer = '-'?['0'-'9']+
+let integer = ['0'-'9']+
 let spaces = [' ' '\t' '\n']
 let string = ['a'-'z''A'-'Z''0'-'9']+
 
 rule token = parse
+  | comments      { token lexbuf }
   | "("           { LP }
   | ")"           { RP }
   | "+"           { ADD }

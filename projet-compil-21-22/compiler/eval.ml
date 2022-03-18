@@ -1,8 +1,4 @@
 open Ast
-     
-let env = Hashtbl.create 3;;
-Hashtbl.add env "L" 0;;
-Hashtbl.add env "S" 0;;
 
 let rec eval e =
   match e with
@@ -24,16 +20,13 @@ let rec eval e =
   (* | Ref e -> (ref (eval e)); 0
   | Access s -> !s *)
 
-let rec evalInst i =  
+let rec evalInst i p =
 match i with
     | Print e -> (eval e)^"\tPRIM print\n"
-    | Bloc l -> List.fold_left (fun s x -> s^(evalInst x)) "" l
-    (* | If (e,i1,i2) -> (eval e)^"\tBRANCHIFNOT L2\nL1:\n"^(evalInst i1)^"\tBRANCH L3\nL2:\n"^(evalInst i2)^"L3:\n"  *)
+    | Bloc l -> let s, l = List.fold_left (fun (s,tmp) x -> (s^(evalInst x tmp), [(List.nth tmp 0) + 1; (List.nth tmp 1) + 1])) ("",p) l in s
     | If (e,i1,i2) -> (
-      Hashtbl.replace env "L" ((Hashtbl.find env "L")+2);
-      Hashtbl.replace env "S" ((Hashtbl.find env "S")+1);
-      (eval e)^"\tBRANCHIFNOT L"^(string_of_int(Hashtbl.find env "L"))^"\n"^(evalInst i1)^"\tBRANCH S"^(string_of_int(Hashtbl.find env "S"))^"\nL"^(string_of_int((Hashtbl.find env "L")))^":\n"^(evalInst i2 )^"S"^(string_of_int(Hashtbl.find env "S"))^":\n" 
+      (eval e)^"\tBRANCHIFNOT L"^(string_of_int(List.nth p 0))^"\n"^(evalInst i1 [(List.nth p 0) + 2; (List.nth p 1) + 1])^"\tBRANCH S"^(string_of_int(List.nth p 1))^"\nL"^(string_of_int((List.nth p 0)))^":\n"^(evalInst i2 [(List.nth p 0) + 1; (List.nth p 1)])^"S"^(string_of_int(List.nth p 1))^":\n" 
       )
-    | Let (s,e,i) -> (eval e)^"\tPUSH\n"^(evalInst i)^"\tPOP\n"
+    | Let (s,e,i) -> (eval e)^"\tPUSH\n"^(evalInst i p)^"\tPOP\n"
     | While (e,b) -> ""
     (* | Affect (s,e) -> s := (eval e) *)
