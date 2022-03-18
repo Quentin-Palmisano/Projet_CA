@@ -1,4 +1,6 @@
 type token =
+  | LP
+  | RP
   | INT of (int)
   | STRING of (string)
   | ADD
