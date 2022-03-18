@@ -41,5 +41,5 @@ match i with
     | Bloc l -> let s, l = List.fold_left (fun (s,tmp) x -> (s^(evalInst x tmp k p'), [(List.nth tmp 0) + 1; (List.nth tmp 1) + 1])) ("",p) l in s
     | If (e,i1,i2) -> (eval e k p')^"\tBRANCHIFNOT L"^(string_of_int(List.nth p 0))^"\n"^(evalInst i1 [(List.nth p 0) + 2; (List.nth p 1) + 1] k p')^"\tBRANCH S"^(string_of_int(List.nth p 1))^"\nL"^(string_of_int((List.nth p 0)))^":\n"^(evalInst i2 [(List.nth p 0) + 1; (List.nth p 1)] k p')^"S"^(string_of_int(List.nth p 1))^":\n"
     | Let (s,e,i) -> (eval e k ((s,0)::p'))^"\tPUSH\n"^(evalInst i p k ((s,0)::p'))^"\tPOP\n"
-    | While (e,b) -> ""
+    | While (e,b) -> "L"^(string_of_int(List.nth p 0))^":\n"^(eval e k p')^"\tBRANCHIFNOT L"^(string_of_int((List.nth p 0)+1))^"\n"^(evalInst (Bloc b) [(List.nth p 0) + 2; (List.nth p 1)] k p')^"\tBRANCH L"^(string_of_int(List.nth p 0))^"\nL"^(string_of_int((List.nth p 0)+1))^":\n"
     (* | Affect (s,e) -> s := (eval e) *)
