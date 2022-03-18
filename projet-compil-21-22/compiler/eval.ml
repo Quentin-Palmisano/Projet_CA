@@ -25,6 +25,8 @@ let rec evalInst i =
 match i with
     | Print e -> (eval e)^"\tPRIM print\n"
     | Bloc l -> List.fold_left (fun s x -> s^(evalInst x)) "" l
-    | If (e,i1,i2) -> (eval e)^"\tBRANCHIFNOT L2\nL1:\n"^(evalInst i1)^"\tBRANCH L3\nL2:\n"^(evalInst i2)^"L3:\n"
+    | If (e,i1,i2) -> (eval e)^"\tBRANCHIFNOT L2\nL1:\n"^(evalInst i1)^"\tBRANCH L3\nL2:\n"^(evalInst i2)^"L3:\n" 
+    (* | If (e,i1,i2) -> (eval e)^"\tBRANCHIFNOT L"^(string_of_int (k+2))^"\nL"^(string_of_int k)^":\n"^(evalInst i1 (k+3))^"\tBRANCH L"^(string_of_int (k+2))^"\nL"^(string_of_int (k+1))^":\n"^(evalInst i2 (k+3))^"L"^(string_of_int (k+2))^":\n" *)
     | Let (s,e,i) -> (eval e)^"\tPUSH\n"^(evalInst i)^"\tPOP\n"
+    | While (e,b) -> ""
     (* | Affect (s,e) -> s := (eval e) *)

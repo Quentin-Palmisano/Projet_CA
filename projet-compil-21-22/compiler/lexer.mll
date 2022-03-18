@@ -30,6 +30,9 @@ rule token = parse
   | "let"         { LET }
   | "in"          { IN }
   | "="           { ASSIGN }
+  | "while"       { WHILE }
+  | "do"          { DO }
+  | "done"        { DONE }
   | "ref"         { REF }
   | "!"           { EXCLAM }
   | ":="          { AFFECT }

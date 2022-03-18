@@ -23,4 +23,5 @@ type inst =
   | Bloc of inst list
   | If of expr * inst * inst
   | Let of string * expr * inst
+  | While of expr * inst list
   (* | Affect of int ref * expr *)

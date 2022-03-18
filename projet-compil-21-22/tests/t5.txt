@@ -1,9 +1,1 @@
-begin
-print 5/2;
-let x = 5 in
-  begin
-  print 3;
-  print x;
-  print x*1
-  end
-end
+if false then print 8 else print 9

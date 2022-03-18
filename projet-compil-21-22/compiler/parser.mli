@@ -21,12 +21,15 @@ type token =
   | IF
   | THEN
   | ELSE
-  | EXCLAM
-  | AFFECT
-  | REF
+  | WHILE
+  | DO
+  | DONE
   | LET
   | IN
   | ASSIGN
+  | EXCLAM
+  | AFFECT
+  | REF
   | EOF
 
 val prog :
