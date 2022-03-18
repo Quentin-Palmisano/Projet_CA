@@ -2,7 +2,19 @@ open Ast
 
 let rec eval e k =
   match e with
-  | Add(e1,e2) -> (eval e2 k)^"\tPUSH\n"^(eval e1 (k+1))^"\tPRIM +\n"
+  | Add(e1,e2) -> (
+    match e2 with
+    | String _ -> (
+      match e1 with
+      | String s2 -> (eval e2 (k+1))^"\tPUSH\n"^(eval e1 (k+1))^"\tPRIM +\n"
+      | _ -> (eval e1 (k+1))^"\tPUSH\n"^(eval e2 (k+1))^"\tPRIM +\n"
+    )
+    | _ -> (
+      match e1 with
+      | String _ -> (eval e2 (k+1))^"\tPUSH\n"^(eval e1 (k+1))^"\tPRIM +\n"
+      | _ -> (eval e2 (k+1))^"\tPUSH\n"^(eval e1 (k+1))^"\tPRIM +\n"
+    )
+  )
   | Sub(e1,e2) ->(eval e2 k)^"\tPUSH\n"^(eval e1 (k+1))^"\tPRIM -\n"
   | Mult(e1,e2) -> (eval e2 k)^"\tPUSH\n"^(eval e1 (k+1))^"\tPRIM *\n"
   | Div(e1,e2) -> (eval e2 k)^"\tPUSH\n"^(eval e1 (k+1))^"\tPRIM /\n"
@@ -16,7 +28,7 @@ let rec eval e k =
   | Int n -> "\tCONST "^(string_of_int n)^"\n"
   | True -> "\tCONST 1\n"
   | False -> "\tCONST 0\n"
-  | String s -> "\tACC "^(string_of_int k)^"\n"
+  | String _ -> "\tACC "^(string_of_int k)^"\n"
   (* | Ref e -> (ref (eval e)); 0
   | Access s -> !s *)
 
