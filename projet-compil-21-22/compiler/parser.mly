@@ -30,6 +30,7 @@
 %left GREATEREQUAL
 %left THEN
 %left ELSE
+%left REF
 
 %%
 
@@ -64,8 +65,8 @@ expr : LP expr RP { Ast.Par($2) }
      | TRUE { Ast.True }
      | FALSE { Ast.False }
      | STRING { Ast.String($1) }
-    //  | REF expr { Ast.Ref($2) }
-    //  | EXCLAM STRING { Ast.Exclam($2) }
+     | REF expr { Ast.Ref($2) }
+     | EXCLAM STRING { Ast.Exclam($2) }
      ;
 
 %%

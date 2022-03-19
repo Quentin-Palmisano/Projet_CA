@@ -1,7 +1,7 @@
 begin
-while (0 > 1) do
-print 3;
-if false then print 1 else print 2
-done;
-print 1
+print 1;
+let z = 3 in
+    let x = (ref 5) in
+        let y = (ref 2) in
+            print(!x+!y+z)
 end

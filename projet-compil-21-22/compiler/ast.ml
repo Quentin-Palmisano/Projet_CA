@@ -15,8 +15,8 @@ type expr =
   | True
   | False
   | String of string
-  (* | Ref of expr
-  | Exclam of string *)
+  | Ref of expr
+  | Exclam of string
 
 type inst = 
   | Print of expr

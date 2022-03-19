@@ -37,9 +37,9 @@ rule token = parse
   | "while"       { WHILE }
   | "do"          { DO }
   | "done"        { DONE }
-  (* | "ref"         { REF }
+  | "ref"         { REF }
   | "!"           { EXCLAM }
-  | ":="          { AFFECT } *)
+  | ":="          { AFFECT }
   | "print"       { PRINT }
   | string as s   { STRING(s) }
   | spaces        { token lexbuf }

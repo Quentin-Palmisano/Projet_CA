@@ -56,9 +56,14 @@ let rec eval e =
     | True -> "\tCONST 1\n"
     | False -> "\tCONST 0\n"
     | String s -> "\tACC "^(string_of_int(rechercher !addr s))^"\n"
-    (* | Ref e -> ""
-    | Exclam s -> "" *)
-
+    | Ref e -> (eval e)^"\tMAKEBLOCK 1\n"
+    | Exclam s -> (
+      let tmp1 = "\tCONST 0\n\tPUSH\n" in
+      incrAddr addr;
+      let tmp2 = "\tACC "^(string_of_int(rechercher !addr s))^"\n\tGETVECTITEM\n" in
+        decrAddr addr;
+        tmp1^tmp2
+    )
 
 let rec evalInst i p =
   let updateEnv2 s e i p =
@@ -77,4 +82,4 @@ match i with
     | IfThen (e,i1) -> (eval e)^"\tBRANCHIFNOT S"^(string_of_int(List.nth p 1))^"\n"^(evalInst i1 [(List.nth p 0) + 2; (List.nth p 1) + 1])^"\tBRANCH S"^(string_of_int(List.nth p 1))^"\nL"^(string_of_int((List.nth p 0)))^":\nS"^(string_of_int(List.nth p 1))^":\n"
     | Let (s,e,i) -> updateEnv2 s e i p;
     | While (e,b) -> "L"^(string_of_int(List.nth p 0))^":\n"^(eval e)^"\tBRANCHIFNOT L"^(string_of_int((List.nth p 0)+1))^"\n"^(evalInst (Bloc b) [(List.nth p 0) + 2; (List.nth p 1)])^"\tBRANCH L"^(string_of_int(List.nth p 0))^"\nL"^(string_of_int((List.nth p 0)+1))^":\n"
-    (* | Affect (s,e) -> "" *)
+    (* | Affect (s,e) ->  *)
