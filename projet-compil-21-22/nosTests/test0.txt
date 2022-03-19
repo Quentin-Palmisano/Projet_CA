@@ -1,7 +1,5 @@
-begin
-print 1;
-let z = 3 in
-    let x = (ref 5) in
-        let y = (ref 2) in
-            print(!x+!y+z)
-end
+let x = (ref 5) in
+    begin
+        x := !x + 10;
+        print (!x * 2)
+    end

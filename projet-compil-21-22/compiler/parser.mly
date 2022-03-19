@@ -42,7 +42,7 @@ inst : PRINT expr { Ast.Print($2) }
     | IF expr THEN inst { Ast.IfThen($2,$4) }
     | LET STRING ASSIGN expr IN inst { Ast.Let($2,$4,$6) }
     | WHILE expr DO bloc DONE { Ast.While($2,$4) }
-    // | STRING AFFECT expr { Ast.Affect ($1,$3) }
+    | STRING AFFECT expr { Ast.Affect ($1,$3) }
     ;
 
 bloc : inst { [$1] }

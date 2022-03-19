@@ -25,4 +25,4 @@ type inst =
   | IfThen of expr * inst
   | Let of string * expr * inst
   | While of expr * inst list
-  (* | Affect of string * expr *)
+  | Affect of string * expr
