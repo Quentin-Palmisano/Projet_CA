@@ -15,8 +15,8 @@ type expr =
   | True
   | False
   | String of string
-  | Ref of expr
-  | Exclam of string
+  (* | Ref of expr
+  | Exclam of string *)
 
 type inst = 
   | Print of expr
@@ -25,4 +25,4 @@ type inst =
   | IfThen of expr * inst
   | Let of string * expr * inst
   | While of expr * inst list
-  | Affect of string * expr
+  (* | Affect of string * expr *)

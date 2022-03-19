@@ -28,9 +28,8 @@
 %left GREATER
 %left LOWEREQUAL
 %left GREATEREQUAL
-%left ELSE
 %left THEN
-
+%left ELSE
 
 %%
 
