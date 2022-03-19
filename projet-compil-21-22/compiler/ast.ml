@@ -1,4 +1,5 @@
 type expr =
+  | Par of expr 
   | Add of expr * expr
   | Sub of expr * expr
   | Mult of expr * expr
@@ -14,10 +15,8 @@ type expr =
   | True
   | False
   | String of string
-  | Par of expr
-  (* | String of int ref
   | Ref of expr
-  | Access of int ref *)
+  | Exclam of string
 
 type inst = 
   | Print of expr
@@ -26,4 +25,4 @@ type inst =
   | IfThen of expr * inst
   | Let of string * expr * inst
   | While of expr * inst list
-  (* | Affect of int ref * expr *)
+  | Affect of string * expr

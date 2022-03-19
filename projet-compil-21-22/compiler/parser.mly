@@ -39,7 +39,7 @@ inst : PRINT expr { Ast.Print($2) }
     | IF expr THEN inst { Ast.IfThen($2,$4) }
     | LET STRING ASSIGN expr IN inst { Ast.Let($2,$4,$6) }
     | WHILE expr DO bloc DONE { Ast.While($2,$4) }
-    /* | STRING AFFECT expr { Ast.Affect($1,$3) }*/
+    | STRING AFFECT expr { Ast.Affect ($1,$3) }
     ;
 
 bloc : inst { [$1] }
@@ -62,9 +62,8 @@ expr : LP expr RP { Ast.Par($2) }
      | TRUE { Ast.True }
      | FALSE { Ast.False }
      | STRING { Ast.String($1) }
-     
-     /*| REF expr { Ast.Ref($2) }
-     | EXCLAM STRING { Ast.Access($2) }*/
+     | REF expr { Ast.Ref($2) }
+     | EXCLAM STRING { Ast.Exclam($2) }
      ;
 
 %%
