@@ -1,0 +1,7 @@
+begin
+print 1;
+let z = 3 in
+    let x = (ref 5) in
+        let y = (ref 2) in
+            print(!x+!y+z)
+end
