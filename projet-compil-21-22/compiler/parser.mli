@@ -1,8 +1,8 @@
 type token =
-  | LP
-  | RP
   | INT of (int)
   | STRING of (string)
+  | LP
+  | RP
   | ADD
   | SUB
   | MULT
