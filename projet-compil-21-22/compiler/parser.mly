@@ -9,6 +9,7 @@
 %token TRUE FALSE
 %token PRINT SEMICOL BEGIN END IF THEN ELSE WHILE DO DONE
 %token LET IN ASSIGN EXCLAM AFFECT REF
+%token AND WHERE LA RA LC RC COMMA
 %token EOF
 
 %start prog
@@ -17,19 +18,23 @@
 %type <Ast.expr> expr
 %type <Ast.inst> inst
 
-%left ADD
-%left SUB
-%left MULT
-%left DIV
-%left NOT
+%left IN
+%left THEN
+%left ELSE
+%left WHERE
+%left AND
 %left EQUAL
+%left ASSIGN
 %left NOTEQUAL
 %left LOWER
 %left GREATER
 %left LOWEREQUAL
 %left GREATEREQUAL
-%left THEN
-%left ELSE
+%left ADD
+%left SUB
+%left MULT
+%left DIV
+%left NOT
 %left REF
 
 %%
@@ -40,14 +45,20 @@ inst : PRINT expr { Ast.Print($2) }
     | BEGIN bloc END { Ast.Bloc($2) } 
     | IF expr THEN inst ELSE inst { Ast.If($2,$4,$6) }
     | IF expr THEN inst { Ast.IfThen($2,$4) }
-    | LET STRING ASSIGN expr IN inst { Ast.Let($2,$4,$6) }
+    | LET et IN inst{ Ast.LetAnd($2,$4) }
     | WHILE expr DO bloc DONE { Ast.While($2,$4) }
     | STRING AFFECT expr { Ast.Affect ($1,$3) }
+    | inst WHERE blablou { Ast.Where($1,$3) }
     ;
 
 bloc : inst { [$1] }
     | inst SEMICOL bloc { $1::$3 }
     ;
+
+et : blablou { [$1] }
+    | blablou AND et { $1::$3 } ;
+
+blablou : STRING ASSIGN expr { ($1,$3) } ;
 
 expr : LP expr RP { Ast.Par($2) }
      | expr ADD expr { Ast.Add($1,$3) }
@@ -67,6 +78,10 @@ expr : LP expr RP { Ast.Par($2) }
      | STRING { Ast.String($1) }
      | REF expr { Ast.Ref($2) }
      | EXCLAM STRING { Ast.Exclam($2) }
+     | LA seq RA { Ast.Tab($2) }
      ;
+
+seq : expr { [$1] }
+    | expr COMMA seq { $1::$3 }
 
 %%

@@ -32,6 +32,13 @@ type token =
   | EXCLAM
   | AFFECT
   | REF
+  | AND
+  | WHERE
+  | LA
+  | RA
+  | LC
+  | RC
+  | COMMA
   | EOF
 
 val prog :

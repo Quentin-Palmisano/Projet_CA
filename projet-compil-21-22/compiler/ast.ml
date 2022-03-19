@@ -17,12 +17,14 @@ type expr =
   | String of string
   | Ref of expr
   | Exclam of string
+  | Tab of expr list
 
 type inst = 
   | Print of expr
   | Bloc of inst list
   | If of expr * inst * inst
   | IfThen of expr * inst
-  | Let of string * expr * inst
   | While of expr * inst list
   | Affect of string * expr
+  | LetAnd of (string * expr) list * inst
+  | Where of inst * (string * expr)

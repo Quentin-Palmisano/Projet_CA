@@ -66,21 +66,26 @@ let rec eval e =
     )
 
 let rec evalInst i p =
-  let updateEnv2 s e i p =
+
+  let updateEval s e =
     let tmp1 = (eval e) in
       incrAddr addr;
       ajouterAddr addr s;
-      let tmp2 = (evalInst i p) in
+      tmp1^"\tPUSH\n"
+  in
+
+  let updateEvalInst s i p =
+    let tmp2 = (evalInst i p) in
         decrAddr addr;
         supprimerAddr addr s;
-        tmp1^"\tPUSH\n"^tmp2^"\tPOP\n"
+        tmp2^"\tPOP\n"
   in
+
 match i with
     | Print e -> (eval e)^"\tPRIM print\n"
     | Bloc l -> let s, l = List.fold_left (fun (s,tmp) x -> (s^(evalInst x tmp), [(List.nth tmp 0) + 1; (List.nth tmp 1) + 1])) ("",p) l in s
     | If (e,i1,i2) -> (eval e)^"\tBRANCHIFNOT L"^(string_of_int(List.nth p 0))^"\n"^(evalInst i1 [(List.nth p 0) + 2; (List.nth p 1) + 1])^"\tBRANCH S"^(string_of_int(List.nth p 1))^"\nL"^(string_of_int((List.nth p 0)))^":\n"^(evalInst i2 [(List.nth p 0) + 1; (List.nth p 1)])^"S"^(string_of_int(List.nth p 1))^":\n"
     | IfThen (e,i1) -> (eval e)^"\tBRANCHIFNOT S"^(string_of_int(List.nth p 1))^"\n"^(evalInst i1 [(List.nth p 0) + 2; (List.nth p 1) + 1])^"\tBRANCH S"^(string_of_int(List.nth p 1))^"\nL"^(string_of_int((List.nth p 0)))^":\nS"^(string_of_int(List.nth p 1))^":\n"
-    | Let (s,e,i) -> updateEnv2 s e i p;
     | While (e,b) -> "L"^(string_of_int(List.nth p 0))^":\n"^(eval e)^"\tBRANCHIFNOT L"^(string_of_int((List.nth p 0)+1))^"\n"^(evalInst (Bloc b) [(List.nth p 0) + 2; (List.nth p 1)])^"\tBRANCH L"^(string_of_int(List.nth p 0))^"\nL"^(string_of_int((List.nth p 0)+1))^":\n"
     | Affect (s,e) -> (
       let tmp1 = (eval e)^"\tPUSH\n\tCONST 0\n\tPUSH\n" in
@@ -91,3 +96,8 @@ match i with
           decrAddr addr;
           tmp1^tmp2
     )
+    | LetAnd (l,i) -> (
+      let s = List.fold_left (fun ret (s,e) -> ret^(updateEval s e)) "" l in
+      s^(updateEvalInst s i p)
+    )
+    | Where(i,(s,e)) -> evalInst (LetAnd([(s,e)], i)) p

@@ -1,5 +1,0 @@
-let x = (ref 5) in
-    begin
-        x := !x + 10;
-        print (!x * 2)
-    end

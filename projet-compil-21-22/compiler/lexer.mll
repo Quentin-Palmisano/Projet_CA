@@ -11,6 +11,10 @@ rule token = parse
   | comments       { token lexbuf }
   | "("           { LP }
   | ")"           { RP }
+  | "{"           { LA }
+  | "}"           { RA }
+  | "["           { LC }
+  | "]"           { RC }
   | "+"           { ADD }
   | "-"           { SUB }
   | "*"           { MULT }
@@ -26,6 +30,7 @@ rule token = parse
   | "false"       { FALSE }
   | integer as s  { INT(int_of_string s) }
   | ";"           { SEMICOL }
+  | ","           { COMMA }
   | "begin"       { BEGIN }
   | "end"         { END }
   | "if"          { IF }
@@ -41,6 +46,8 @@ rule token = parse
   | "!"           { EXCLAM }
   | ":="          { AFFECT }
   | "print"       { PRINT }
+  | "and"         { AND }
+  | "where"       { WHERE }
   | string as s   { STRING(s) }
   | spaces        { token lexbuf }
   | eof           { EOF }
