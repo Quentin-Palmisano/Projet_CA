@@ -39,6 +39,12 @@ type token =
   | LC
   | RC
   | COMMA
+  | LENGTH
+  | CONS
+  | HD
+  | TL
+  | EMPTY
+  | NIL
   | EOF
 
 val prog :

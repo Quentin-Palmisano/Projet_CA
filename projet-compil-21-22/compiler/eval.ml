@@ -49,9 +49,9 @@ let rec eval e =
     | Greater(e1,e2) -> updateEnv1 e1 e2 ">"
     | LowerEqual(e1,e2) -> updateEnv1 e1 e2 "<="
     | GreaterEqual(e1,e2) -> updateEnv1 e1 e2 ">="
-    | Equal(e1,e2) -> updateEnv1 e1 e2 "=="
+    | Equal(e1,e2) -> updateEnv1 e1 e2 "="
     | NotEqual(e1,e2) -> updateEnv1 e1 e2 "!="
-    | Not(e) -> (eval e)^"\tPRIM not\n"
+    | Not e -> (eval e)^"\tPRIM not\n"
     | Int n -> "\tCONST "^(string_of_int n)^"\n"
     | True -> "\tCONST 1\n"
     | False -> "\tCONST 0\n"
@@ -64,6 +64,35 @@ let rec eval e =
         decrAddr addr;
         tmp1^tmp2
     )
+    | Tab l -> (
+        (* let (s,cpt) = List.fold_left (fun (s,cpt) e -> ((eval e)^"\tPUSH\n"^s, cpt + 1)) ("", 0) l in
+        s^"\tPOP\n\tMAKEBLOCK "^(string_of_int cpt)^"\n" *)
+        let rec f list cpt =
+          match list with
+            | [] -> ("", cpt)
+            | [e] -> ((eval e), cpt)
+            | hd::tl -> let (s, c) = (f tl (cpt+1)) in ((eval hd)^"\tPUSH\n"^s, c)
+        in
+        let (s,cpt) = f (List.rev l) 1 in 
+          s^"\tMAKEBLOCK "^(string_of_int cpt)^"\n"
+    )
+    | TabGet(s,e) -> (
+      let tmp1 = (eval e)^"\tPUSH\n\tPUSH\n" in
+      incrAddr addr;
+      incrAddr addr;
+      let tmp2 = "\tACC "^(string_of_int(rechercher !addr s))^"\n\tVECTLENGTH\n\tPRIM >\n\tBRANCHIFNOT fin\n" in
+        decrAddr addr;
+        let tmp3 = "\tACC "^(string_of_int(rechercher !addr s))^"\n\tGETVECTITEM\n\tfin:\n" in
+        decrAddr addr;
+          tmp1^tmp2^tmp3
+    )
+    | Length e -> (eval e)^"\tVECTLENGTH\n"
+    | Cons(e1,e2) -> (eval e2)^"\tPUSH\n"^(eval e1)^"\tMAKEBLOCK 2\n"
+    | Hd e -> (eval e)^"\tBRANCHIFNOT fin\n\tGETFIELD 0\n\tfin:\n"
+    | Tl e -> (eval e)^"\tGETFIELD 1\n"
+    | Empty e -> "\tCONST 0\n\tPUSH\n"^(eval e)^"\tPRIM =\n"
+    | Nil -> "\tCONST 0\n"
+
 
 let rec evalInst i p =
 
@@ -101,3 +130,12 @@ match i with
       s^(updateEvalInst s i p)
     )
     | Where(i,(s,e)) -> evalInst (LetAnd([(s,e)], i)) p
+    | TabAffect (s,e1,e2) -> (
+        let tmp1 = (eval e2)^"\tPUSH\n"^(eval e1)^"\tPUSH\n" in
+          incrAddr addr;
+          incrAddr addr;
+          let tmp2 = "\tACC "^(string_of_int(rechercher !addr s))^"\n\tSETVECTITEM\n" in
+            decrAddr addr;
+            decrAddr addr;
+            tmp1^tmp2
+    )

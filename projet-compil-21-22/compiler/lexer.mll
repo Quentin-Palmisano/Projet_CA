@@ -48,6 +48,12 @@ rule token = parse
   | "print"       { PRINT }
   | "and"         { AND }
   | "where"       { WHERE }
+  | "length"      { LENGTH }
+  | "cons"        { CONS }
+  | "hd"          { HD }
+  | "tl"          { TL }
+  | "empty"       { EMPTY }
+  | "nil"         { NIL }
   | string as s   { STRING(s) }
   | spaces        { token lexbuf }
   | eof           { EOF }

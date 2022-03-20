@@ -9,7 +9,8 @@
 %token TRUE FALSE
 %token PRINT SEMICOL BEGIN END IF THEN ELSE WHILE DO DONE
 %token LET IN ASSIGN EXCLAM AFFECT REF
-%token AND WHERE LA RA LC RC COMMA
+%token AND WHERE LA RA LC RC COMMA LENGTH
+%token CONS HD TL EMPTY NIL
 %token EOF
 
 %start prog
@@ -48,17 +49,18 @@ inst : PRINT expr { Ast.Print($2) }
     | LET et IN inst{ Ast.LetAnd($2,$4) }
     | WHILE expr DO bloc DONE { Ast.While($2,$4) }
     | STRING AFFECT expr { Ast.Affect ($1,$3) }
-    | inst WHERE blablou { Ast.Where($1,$3) }
+    | inst WHERE affect { Ast.Where($1,$3) }
+    | STRING LC expr RC AFFECT expr { Ast.TabAffect($1,$3,$6) }
     ;
 
 bloc : inst { [$1] }
     | inst SEMICOL bloc { $1::$3 }
     ;
 
-et : blablou { [$1] }
-    | blablou AND et { $1::$3 } ;
+et : affect { [$1] }
+    | affect AND et { $1::$3 } ;
 
-blablou : STRING ASSIGN expr { ($1,$3) } ;
+affect : STRING ASSIGN expr { ($1,$3) } ;
 
 expr : LP expr RP { Ast.Par($2) }
      | expr ADD expr { Ast.Add($1,$3) }
@@ -79,9 +81,17 @@ expr : LP expr RP { Ast.Par($2) }
      | REF expr { Ast.Ref($2) }
      | EXCLAM STRING { Ast.Exclam($2) }
      | LA seq RA { Ast.Tab($2) }
+     | STRING LC expr RC { Ast.TabGet($1,$3) }
+     | LENGTH expr { Ast.Length($2) }
+     | CONS expr expr { Ast.Cons($2,$3) }
+     | HD expr { Ast.Hd($2) }
+     | TL expr { Ast.Tl($2) }
+     | EMPTY expr { Ast.Empty($2) }
+     | NIL { Ast.Nil }
      ;
 
 seq : expr { [$1] }
     | expr COMMA seq { $1::$3 }
-
+    ;
+    
 %%

@@ -18,6 +18,13 @@ type expr =
   | Ref of expr
   | Exclam of string
   | Tab of expr list
+  | TabGet of string * expr
+  | Length of expr
+  | Cons of expr * expr
+  | Hd of expr
+  | Tl of expr
+  | Empty of expr
+  | Nil
 
 type inst = 
   | Print of expr
@@ -28,3 +35,4 @@ type inst =
   | Affect of string * expr
   | LetAnd of (string * expr) list * inst
   | Where of inst * (string * expr)
+  | TabAffect of string * expr * expr

@@ -19,7 +19,7 @@ let process file =
   let oc = open_out "../bytecode/byte.txt" in
   let s = nettoyeur(Eval.evalInst ast [1;1]) in
   begin
-  Printf.fprintf oc "%s\tSTOP" s;
+  Printf.fprintf oc "%sfin:\n\tSTOP" s;
   close_out oc;
   end
   
