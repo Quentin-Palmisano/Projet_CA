@@ -1,6 +1,6 @@
 SRC=tests/t0.txt
 
-TMP=bytecode/byte.txt
+TMP=/projet-compil-21-21/bytecode/byte.txt
 
 all:
 	make -C compiler

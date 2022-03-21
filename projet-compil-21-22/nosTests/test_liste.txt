@@ -1,0 +1,5 @@
+let x = (cons 3 nil) in let y = (tl x) in
+    begin
+        print(hd x);
+        print(hd y)
+    end
