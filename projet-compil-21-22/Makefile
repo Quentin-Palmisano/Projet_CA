@@ -1,18 +1,22 @@
-
 SRC=tests/t0.txt
 
-TMP=tests/bc.code
+TMP=bytecode/byte.txt
 
 all:
 	make -C compiler
 	make -C vm
 
 test:
-	compiler/compile $(SRC) > $(TMP)
+	compiler/eval $(SRC)
 	vm/minizam  $(TMP)
 
 runtest:	all
 	for f in $(shell ls tests/*.txt) ; do \
+         echo SRC=$$f ;\
+         make test SRC=$$f ; \
+    done
+runnostests: all
+	for f in $(shell ls nosTests/*.txt) ; do \
          echo SRC=$$f ;\
          make test SRC=$$f ; \
     done
