@@ -65,8 +65,6 @@ let rec eval e =
         tmp1^tmp2
     )
     | Tab l -> (
-        (* let (s,cpt) = List.fold_left (fun (s,cpt) e -> ((eval e)^"\tPUSH\n"^s, cpt + 1)) ("", 0) l in
-        s^"\tPOP\n\tMAKEBLOCK "^(string_of_int cpt)^"\n" *)
         let rec f list cpt =
           match list with
             | [] -> ("", cpt)
@@ -92,6 +90,7 @@ let rec eval e =
     | Tl e -> (eval e)^"\tGETFIELD 1\n"
     | Empty e -> "\tCONST 0\n\tPUSH\n"^(eval e)^"\tPRIM =\n"
     | Nil -> "\tCONST 0\n"
+    | Cond e -> (eval e)
 
 
 let rec evalInst i p =

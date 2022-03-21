@@ -19,13 +19,22 @@
 %type <Ast.expr> expr
 %type <Ast.inst> inst
 
+%left LET
+%left AFFECT
+%left EXCLAM
+%left ASSIGN
+%left EMPTY
+%left TL
+%left HD
+%left CONS
+%left COMMA
+%left AND
 %left IN
 %left THEN
 %left ELSE
 %left WHERE
-%left AND
+%left DO
 %left EQUAL
-%left ASSIGN
 %left NOTEQUAL
 %left LOWER
 %left GREATER
@@ -47,7 +56,7 @@ inst : PRINT expr { Ast.Print($2) }
     | IF expr THEN inst ELSE inst { Ast.If($2,$4,$6) }
     | IF expr THEN inst { Ast.IfThen($2,$4) }
     | LET et IN inst{ Ast.LetAnd($2,$4) }
-    | WHILE expr DO bloc DONE { Ast.While($2,$4) }
+    | WHILE cond DO bloc DONE { Ast.While($2,$4) }
     | STRING AFFECT expr { Ast.Affect ($1,$3) }
     | inst WHERE affect { Ast.Where($1,$3) }
     | STRING LC expr RC AFFECT expr { Ast.TabAffect($1,$3,$6) }
@@ -67,16 +76,8 @@ expr : LP expr RP { Ast.Par($2) }
      | expr SUB expr { Ast.Sub($1,$3) }
      | expr MULT expr { Ast.Mult($1,$3) }
      | expr DIV expr { Ast.Div($1,$3) }
-     | expr LOWER expr { Ast.Lower($1,$3) }
-     | expr GREATER expr { Ast.Greater($1,$3) }
-     | expr LOWEREQUAL expr { Ast.LowerEqual($1,$3) }
-     | expr GREATEREQUAL expr { Ast.GreaterEqual($1,$3) }
-     | expr EQUAL expr { Ast.Equal($1,$3) }
-     | expr NOTEQUAL expr { Ast.NotEqual($1,$3) }
-     | NOT expr { Ast.Not($2) }
+     | cond { Ast.Cond($1) }
      | INT { Ast.Int($1) }
-     | TRUE { Ast.True }
-     | FALSE { Ast.False }
      | STRING { Ast.String($1) }
      | REF expr { Ast.Ref($2) }
      | EXCLAM STRING { Ast.Exclam($2) }
@@ -94,4 +95,16 @@ seq : expr { [$1] }
     | expr COMMA seq { $1::$3 }
     ;
     
+cond : LP cond RP { Ast.Par($2) }
+     | expr LOWER expr { Ast.Lower($1,$3) }
+     | expr GREATER expr { Ast.Greater($1,$3) }
+     | expr LOWEREQUAL expr { Ast.LowerEqual($1,$3) }
+     | expr GREATEREQUAL expr { Ast.GreaterEqual($1,$3) }
+     | expr EQUAL expr { Ast.Equal($1,$3) }
+     | expr NOTEQUAL expr { Ast.NotEqual($1,$3) }
+     | NOT cond { Ast.Not($2) }
+     | TRUE { Ast.True }
+     | FALSE { Ast.False }
+     ;
+
 %%

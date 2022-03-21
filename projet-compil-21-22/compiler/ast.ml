@@ -25,6 +25,7 @@ type expr =
   | Tl of expr
   | Empty of expr
   | Nil
+  | Cond of expr
 
 type inst = 
   | Print of expr
