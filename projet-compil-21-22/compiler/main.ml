@@ -16,10 +16,10 @@ let process file =
   let ic = open_in file in 
   let lexbuf = Lexing.from_channel ic in
   let ast = Parser.prog Lexer.token lexbuf in
-  let oc = open_out "../bytecode/byte.txt" in
+  let oc = open_out "bytecode/byte.txt" in
   let s = nettoyeur(Eval.evalInst ast [1;1]) in
   begin
-  Printf.fprintf oc "%sfin:\n\tSTOP" s;
+  Printf.fprintf oc "%s\tSTOP" s;
   close_out oc;
   end
   
